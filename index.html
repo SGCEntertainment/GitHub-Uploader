@@ -6,7 +6,7 @@
     <title>GitHub Uploader</title>
 	<link rel="stylesheet" href="Data/style.css">
   </head>
-  <body style="text-align: center">
+  <body onload="load()" style="text-align: center">
     <canvas id="unity-canvas"></canvas>
     <script>
 	
@@ -61,7 +61,7 @@
         }).then((unityInstance) => 
 		{
 		  unityGame = unityInstance;
-		load();
+		
           //loadingCover.style.display = "none";
         }).catch((message) => 
 		{
