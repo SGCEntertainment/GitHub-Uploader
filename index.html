@@ -11,8 +11,24 @@
     <script>
 	
 	  var  unityGame;
+	    const canvas = document.querySelector("#unity-canvas");
 	  
-	  
+	  function load() 
+	  {
+        const gameContainer = document.getElementById('#unity-canvas');
+        gameContainer.addEventListener('dragover', (event) => 
+		{
+           event.preventDefault();
+        });
+            
+		gameContainer.addEventListener('drop', (event) => 
+		{
+           event.preventDefault();
+           const files = event.dataTransfer.files;
+           const first = files[0];
+           unityGame.SendMessage("FileReceiver", "FileSelected", window.URL.createObjectURL(first), first);
+        });
+      }
 	  
 	  const buildUrl = "Build";
       const loaderUrl = buildUrl + "/WebGL.loader.js";
@@ -28,7 +44,7 @@
         productVersion: "0.1",
       };
 	    
-      const canvas = document.querySelector("unity-canvas");
+      const canvas = document.querySelector("#unity-canvas");
 	  
       const script = document.createElement("script");
       script.src = loaderUrl;
