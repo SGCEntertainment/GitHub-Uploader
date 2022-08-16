@@ -28,16 +28,33 @@
            event.preventDefault();
            const files = event.dataTransfer.files;
 	   const first = files[0];
-
-    	  let blob = await fetch(url).then(r => r.blob());
-          var reader = new FileReader();
-	  reader.readAsDataURL(blob); 
 			
-	  reader.onloadend = function() 
+	  var blob;
+			
+	  var xhr = new XMLHttpRequest();
+	  xhr.open('GET', window.URL.createObjectURL(first), true);
+          xhr.responseType = 'blob';
+	  xhr.onload = function(e) 
 	  {
+		  
+          if (this.status == 200) 
+	  {
+    		var myBlob = this.response;
+		  
+		var reader = new FileReader();
+	  	reader.readAsDataURL(myBlob); 
+			
+	  	reader.onloadend = function() 
+	  	{
   		var base64data = reader.result;                
   		console.log(base64data);
-	  }
+	  	}
+		  
+  	  	}
+		
+	  };
+			
+	  xhr.send();
            
            unityGame.SendMessage("FileReceiver", "FileSelected", window.URL.createObjectURL(first), first);
         });
