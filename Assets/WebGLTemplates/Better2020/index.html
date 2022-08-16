@@ -4,36 +4,50 @@
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>GitHub Uploader</title>
-	<link rel="stylesheet" href="Data/style.css">
+    <link rel="stylesheet" href="Data/style.css">
   </head>
   <body style="text-align: center">
     <canvas id="unity-canvas"></canvas>
     <script>
-	
-	  var  unityGame;
-	  
-	  function load() 
-	  {
+      var unityGame;
+      const canvas = document.querySelector("#unity-canvas");
+
+      function load() {
         const gameContainer = document.getElementById('unity-canvas');
-        gameContainer.addEventListener('dragover', (event) => 
-		{
-           event.preventDefault();
+        canvas.addEventListener('dragover', (event) => {
+          event.preventDefault();
         });
-            
-		gameContainer.addEventListener('drop', (event) => 
-		{
-           event.preventDefault();
-           const files = event.dataTransfer.files;
-           const first = files[0];
-           unityGame.SendMessage("FileReceiver", "FileSelected", window.URL.createObjectURL(first), first);
+        canvas.addEventListener('drop', (event) => {
+          event.preventDefault();
+          const files = event.dataTransfer.files;
+          const first = files[0];
+		  
+		  /*
+          var blob;
+          var xhr = new XMLHttpRequest();
+          xhr.open('GET', window.URL.createObjectURL(first), true);
+          xhr.responseType = 'blob';
+          xhr.onload = function(e) {
+            if (this.status == 200) {
+              var myBlob = this.response;
+              var reader = new FileReader();
+              reader.readAsDataURL(myBlob);
+              reader.onloadend = function() {
+                var base64data = reader.result;
+                console.log(base64data);
+                URL.revokeObjectURL(window.URL.createObjectURL(first));
+              }
+            }
+          };
+          xhr.send();
+		  */
+		  
+          unityGame.SendMessage("Receiver", "DownloadProject", window.URL.createObjectURL(first));
         });
       }
-	  
-	  const buildUrl = "Build";
+      const buildUrl = "Build";
       const loaderUrl = buildUrl + "/WebGL.loader.js";
-	  
-	  const config = 
-	  {
+      const config = {
         dataUrl: buildUrl + "/WebGL.data.br",
         frameworkUrl: buildUrl + "/WebGL.framework.js.br",
         codeUrl: buildUrl + "/WebGL.wasm.br",
@@ -42,29 +56,22 @@
         productName: "GitHub Uploader",
         productVersion: "0.1",
       };
-	  
       const script = document.createElement("script");
       script.src = loaderUrl;
-      script.onload = () => 
-	  {
-        createUnityInstance(canvas, config, (progress) => 
-		{
+      script.onload = () => {
+        createUnityInstance(canvas, config, (progress) => {
           //spinner.style.display = "none";
           //progressBarEmpty.style.display = "";
           //progressBarFull.style.width = `${100 * progress}%`;
-		  
-		  //canvas.style.background = "url('https://candyquiz.hype-game.ru/back.jpg') center/ cover"
-		  
-        }).then((unityInstance) => 
-		{
-		  unityGame = unityInstance;
-          loadingCover.style.display = "none";
-        }).catch((message) => 
-		{
+          //canvas.style.background = "url('https://candyquiz.hype-game.ru/back.jpg') center/ cover"
+        }).then((unityInstance) => {
+          unityGame = unityInstance;
+          load();
+          //loadingCover.style.display = "none";
+        }).catch((message) => {
           alert(message);
         });
       };
-	  
       document.body.appendChild(script);
     </script>
   </body>
