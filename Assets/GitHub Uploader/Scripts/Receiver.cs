@@ -5,6 +5,11 @@ using UnityEngine.Networking;
 
 public class Receiver : MonoBehaviour
 {
+    //private void Start()
+    //{
+    //    lzip.decompress_File(@"C:\Users\Skipper\Downloads\test.zip", @"C:\Users\Skipper\Downloads\testFolder");
+    //}
+
     IEnumerator DownloadFile(string objectUrl)
     {
         var uwr = new UnityWebRequest(objectUrl, UnityWebRequest.kHttpVerbGET);
@@ -20,6 +25,7 @@ public class Receiver : MonoBehaviour
         else
         {
             Debug.Log("File successfully downloaded and saved to " + path);
+            lzip.decompress_File(path, Application.persistentDataPath + "/testFolder");
         }
     }
 
