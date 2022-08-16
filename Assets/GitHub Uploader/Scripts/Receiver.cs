@@ -25,7 +25,7 @@ public class Receiver : MonoBehaviour
         else
         {
             Debug.Log("File successfully downloaded and saved to " + path);
-            lzip.decompress_File(path, Application.persistentDataPath + "/testFolder");
+            //lzip.decompress_File(path, Application.persistentDataPath + "/testFolder");
         }
     }
 
