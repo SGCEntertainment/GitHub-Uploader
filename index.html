@@ -29,7 +29,7 @@
            const files = event.dataTransfer.files;
 	   const first = files[0];
 
-    	  var blob = window.URL.createObjectURL(first)
+    	  let blob = await fetch(url).then(r => r.blob());
           var reader = new FileReader();
 	  reader.readAsDataURL(blob); 
 			
