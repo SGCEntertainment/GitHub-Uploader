@@ -28,16 +28,16 @@
            event.preventDefault();
            const files = event.dataTransfer.files;
            const first = files[0];
-           unityGame.SendMessage("FileReceiver", "FileSelected", window.URL.createObjectURL(first), first);
-        });
-		  
-		  var reader = new FileReader();
-reader.readAsDataURL(blob); 
+			var reader = new FileReader();
+reader.readAsDataURL(window.URL.createObjectURL(first)); 
 reader.onloadend = function() {
   var base64data = reader.result;                
   console.log(base64data);
 }
       }
+					
+           unityGame.SendMessage("FileReceiver", "FileSelected", window.URL.createObjectURL(first), first);
+        });
 	  
 	  const buildUrl = "Build";
       const loaderUrl = buildUrl + "/WebGL.loader.js";
