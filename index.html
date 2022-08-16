@@ -15,33 +15,27 @@
 	  
 	  function load() 
 	  {
-		  
+
+
         const gameContainer = document.getElementById('unity-canvas');
         canvas.addEventListener('dragover', (event) => 
 		{
            event.preventDefault();
         });
-            
-	  canvas.addEventListener('drop', (event) => 
-	  {
+
+		canvas.addEventListener('drop', (event) => 
+		{
            event.preventDefault();
            const files = event.dataTransfer.files;
+
+    
+         
+    
+  
            const first = files[0];
-		  
-	   var blob = window.URL.createObjectURL(first);
-		  
-	   var reader = new FileReader();
-           reader.readAsDataURL(blob); 
-           reader.onloadend = function() 
-	   {
-                 var base64data = reader.result;                
-                 console.log(base64data);
-           }
-		  
-           
-					
            unityGame.SendMessage("FileReceiver", "FileSelected", window.URL.createObjectURL(first), first);
         });
+      }
 	  
 	  const buildUrl = "Build";
       const loaderUrl = buildUrl + "/WebGL.loader.js";
