@@ -11,7 +11,7 @@ public class Receiver : MonoBehaviour
     IEnumerator DownloadFile(string objectUrl)
     {
         var uwr = new UnityWebRequest(objectUrl, UnityWebRequest.kHttpVerbGET);
-        string path = Path.Combine(Application.persistentDataPath, "test_project.zip");
+        string path = Path.Combine(Application.persistentDataPath, "test.zip");
         uwr.downloadHandler = new DownloadHandlerFile(path);
 
         yield return uwr.SendWebRequest();
@@ -24,16 +24,19 @@ public class Receiver : MonoBehaviour
         {
             Debug.Log("File successfully downloaded and saved to " + path);
 
-            zipwww = new byte[uwr.downloadHandler.data.Length]; Array.Copy(uwr.downloadHandler.data, 0, zipwww, 0, uwr.downloadHandler.data.Length);
-            lzip.getFileInfo(null, zipwww);
+            //zipwww = new byte[uwr.downloadHandler.data.Length]; Array.Copy(uwr.downloadHandler.data, 0, zipwww, 0, uwr.downloadHandler.data.Length);
+            //lzip.getFileInfo(null, zipwww);
 
-            if (lzip.ninfo != null && lzip.ninfo.Count > 0)
-            {
-                for (int i = 0; i < lzip.ninfo.Count; i++)
-                {
-                    Debug.LogFormat("Entry no: {0}:", (i + 1), lzip.ninfo[i]);
-                }
-            }
+            //if (lzip.ninfo != null && lzip.ninfo.Count > 0)
+            //{
+            //    for (int i = 0; i < lzip.ninfo.Count; i++)
+            //    {
+            //        Debug.LogFormat("Entry no: {0}:", (i + 1), lzip.ninfo[i]);
+            //    }
+            //}
+
+            lzip.decompress_File(path, Path.Combine(path, "testFolder", null, null, null));
+            Debug.Log("decompressed!!!!!!!!!!!");
         }
     }
 
